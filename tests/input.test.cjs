@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict'),{load}=require('./game-harness.cjs');
+const {g,tick,tap,el,Button}=load();
+const event=(target={},repeat=false)=>({code:'Space',key:' ',target,repeat,preventDefault(){this.prevented=true}});
+g.start();g.handleKeyDown(event(new Button()));assert.equal(g.state.p.jumpsUsed,1);tick(55);const vy=g.state.p.vy;
+g.handleKeyDown(event({},true));assert.equal(g.state.p.vy,vy);assert.equal(g.state.p.jumpsUsed,1,'holding never triggers another jump');
+g.handleKeyUp(event());g.handleKeyDown(event());assert.equal(g.state.p.jumpsUsed,2);assert.equal(g.state.p.vy,-510);g.handleKeyUp(event());tick(12);
+const y=g.state.p.vy;tap();assert.equal(g.state.p.vy,y,'third airborne press does not jump');tick(145);assert(g.state.p.onGround);assert.equal(g.state.p.jumpsUsed,0);tap();assert.equal(g.state.p.jumpsUsed,1);
+g.start();g.pressInput('keyboard');g.pressInput('touch');assert.equal(g.state.p.jumpsUsed,1,'simultaneous sources cannot consume both jumps');g.releaseInput('keyboard');g.releaseInput('touch');tick(25);g.pressInput('touch');assert.equal(g.state.p.jumpsUsed,2);g.releaseInput('touch');
+g.pause();const t=g.state.elapsed;tick(50);assert.equal(g.state.elapsed,t);g.pause();tap();assert.equal(g.state.p.jumpsUsed,2,'pause does not replenish jumps');
+g.start();g.state.p.x=1201;tick(7);tap();assert.equal(g.state.p.jumpsUsed,1,'coyote first jump retains air jump');tap();assert.equal(g.state.p.jumpsUsed,2);
+g.start();g.state.platforms[0].w=10000;tap();tick(45);tap();tick(2);tap();tick(130);assert(g.state.p.onGround,'expired third press never causes delayed jump');
+g.start();g.state.platforms[0].w=10000;tap();tick(40);tap();while(g.state.p.vy<=0||g.state.p.y+64<365)tick(1);tap();tick(12);assert.equal(g.state.p.jumpsUsed,1);assert(g.state.p.vy<0,'third press near landing buffers first jump');
+g.start();g.handleKeyDown(event({tagName:'INPUT'}));assert(g.state.p.onGround);
+console.log('PASS: two presses, hold/repeat suppression, no third jump, landing reset/buffer, coyote time, mixed input, pause and input focus');

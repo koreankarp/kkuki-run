@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#100e1b"><title>꾸끼런 · 유키나 도트 러너</title><meta name="description" content="유키나와 함께 쿠키를 모으고, 이단점프와 연속 계단으로 밤길을 건너는 Roselia 도트 팬 게임."><link rel="icon" href="icon.svg"><link rel="stylesheet" href="style.css?v=3"></head>
+<body><main class="shell">
+
+<section class="titlebar"><div><h1>꾸끼런<span>꾸끼나 달라와</span></h1></div><div class="record"><span>MY BEST</span><strong id="best">000000</strong></div></section>
+<section class="cabinet" aria-label="꾸끼런 게임">
+<div class="hud"><div class="hud-location"><span class="live-dot"></span><span>쿠키 <b id="cookies">0</b></span></div><div class="hud-values"><span class="score-label">SCORE</span><b id="score">000000</b><span class="hud-divider"></span><span id="speed">×1.00</span><span class="hearts" id="hearts" aria-label="남은 기회 3">♥ ♥ ♥</span></div><div class="tools"><button id="sound" aria-label="소리 끄기" title="소리 끄기 (M)">♫</button><button id="pause" aria-label="일시 정지" title="일시 정지 (P)">Ⅱ</button><button id="fullscreen" aria-label="전체 화면" title="전체 화면">⛶</button></div></div>
+<div class="screen" id="screen"><canvas id="game" width="960" height="480" aria-label="유키나가 자동으로 오른쪽으로 달립니다. 스페이스 또는 터치로 점프하고 공중에서 다시 누르면 이단점프합니다."></canvas>
+<div class="shade" id="startOverlay"><div class="intro"><button class="primary" id="start">달리기 시작 <span>▶</span></button><div class="start-hint"><kbd>SPACE</kbd> 또는 화면 터치 <span>· 완주 10분</span></div></div></div>
+<div class="result-overlay hidden" id="resultOverlay"><div class="result-card"><p class="eyebrow" id="resultTag">INTERMISSION</p><h2 id="resultTitle">잠깐, 쉬어 갈까.</h2><p id="resultCopy"></p><div class="result-stats" id="resultStats"></div><button id="resume" class="primary">계속 달리기 <span>▶</span></button><button id="restart" class="secondary">처음부터 다시</button></div></div>
+<div class="toast hidden" id="toast" role="status"></div>
+</div>
+<div class="course-strip"><span id="clock">00:00 <small>/ 10:00</small></span><span id="streak" class="streak" title="피해 없이 쿠키를 모으면 달리기 효과가 발전합니다.">✦ 0 · ×1</span><div class="meter" role="progressbar" aria-label="코스 진행도" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meter"><i id="progressFill"></i></div></div>
+</section>
+<section class="below"><div class="controls"><div><kbd>SPACE</kbd><p><b>눌러서 점프</b><span>공중에서 한 번 더 눌러 이단점프</span></p></div></div><button class="touch-control" id="touchAction">탭해서 점프 · 다시 탭하면 이단점프</button></section>
+
+</main><script src="assets/yukina-sprite.js"></script><script src="assets/yukina-run.js"></script><script src="sprite-renderer.js?v=3"></script><script src="course-patterns.js?v=13"></script><script src="runner-physics.js?v=13"></script><script src="bandori-scenery.js?v=20"></script><script src="game.js?v=20"></script></body></html>

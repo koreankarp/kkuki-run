@@ -1,0 +1,18 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+__pycache__/
+
+# Downloaded reference material and external media stay local.
+reference-art/
+external-assets/
+*.mp3
+*.ogg
+*.wav
+*.mp4

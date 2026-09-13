@@ -1,0 +1,51 @@
+name: Deploy Kkukki Run to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Check game JavaScript
+        run: |
+          node --check docs/course-patterns.js
+          node --check docs/runner-physics.js
+          node --check docs/bandori-scenery.js
+          node --check docs/game.js
+          node --check docs/sprite-renderer.js
+          node tests/course.test.cjs
+          node tests/platforms.test.cjs
+          node tests/game.test.cjs
+          node tests/input.test.cjs
+          node tests/streak.test.cjs
+          node tests/rolling-stairs.test.cjs
+          node tests/double.test.cjs
+          node tests/visibility.test.cjs
+          node tests/texture.test.cjs
+          node tests/run-texture.test.cjs
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload game
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
